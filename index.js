@@ -1,37 +1,17 @@
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
 const { create } = require("domain");
+const { configDotenv } = require("dotenv");
+configDotenv();
 
 const prisma = new PrismaClient();
 const app = express();
+const PORT = process.env.PORT || 3000;
 app.use(express.json());
-async function main() {
-await   prisma.contact.createMany({
-    data: [
-      {
-        id: 11,
-        phoneNumber: "919191",
-        email: "george@hillvalley.edu",
-        linkedId: null,
-        linkPrecedence: "primary",
-        createdAt: "2023-04-11T00:00:00.374Z",
-        updatedAt: "2023-04-11T00:00:00.374Z",
-        deletedAt: null,
-      },
-      {
-        id: 27,
-        phoneNumber: "717171",
-        email: "biffsucks@hillvalley.edu",
-        linkedId: null,
-        linkPrecedence: "primary",
-        createdAt: "2023-04-21T05:30:00.11Z",
-        updatedAt: "2023-04-21T05:30:00.11Z",
-        deletedAt: null,
-      },
-    ],
-  });
-}
-main()
+
+app.get("/", (req, res) => {
+    res.send("Hello from server");
+});
 
 app.post("/identify", async (req, res) => {
   const { email, phoneNumber } = req.body;
@@ -106,6 +86,6 @@ app.post("/identify", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log("Server is running on http://localhost:3000");
 });
